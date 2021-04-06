@@ -49,7 +49,7 @@ export const stringToBase64 = async (str: string, isByteString = false) => {
 
 // async to align with stringToBase64
 export const base64ToString = async (base64: string, isByteString = false) => {
-  return isByteString ? atob(base64) : byteStringToString(atob(base64));
+  return !isByteString ? atob(base64) : byteStringToString(atob(base64));
 };
 
 // -----------------------------------------------------------------------------
