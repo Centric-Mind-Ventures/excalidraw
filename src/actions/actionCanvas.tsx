@@ -67,7 +67,7 @@ export const actionClearCanvas = register({
       icon={trash}
       title={t("buttons.clearReset")}
       aria-label={t("buttons.clearReset")}
-      showAriaLabel={useIsMobile()}
+      showAriaLabel={!useIsMobile()}
       onClick={() => {
         if (window.confirm(t("alerts.clearReset"))) {
           updateData(null);

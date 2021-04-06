@@ -555,6 +555,7 @@ const LayerUI = ({
                           elementType={appState.elementType}
                           setAppState={setAppState}
                           isLibraryOpen={appState.isLibraryOpen}
+                          zenModeEnabled={appState.zenModeEnabled}
                         />
                       </Stack.Row>
                     </Island>
@@ -616,6 +617,7 @@ const LayerUI = ({
                   elementType={appState.elementType}
                   setAppState={setAppState}
                   isLibraryOpen={appState.isLibraryOpen}
+                  zenModeEnabled={appState.zenModeEnabled}
                 />
               </Island>
             </Section>
@@ -705,6 +707,7 @@ const LayerUI = ({
         isCollaborating={isCollaborating}
         renderCustomFooter={renderCustomFooter}
         viewModeEnabled={viewModeEnabled}
+        zenModeEnabled={zenModeEnabled}
         showThemeBtn={showThemeBtn}
       />
     </>

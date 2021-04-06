@@ -155,11 +155,13 @@ export const ShapesSwitcher = ({
   elementType,
   setAppState,
   isLibraryOpen,
+  zenModeEnabled,
 }: {
   canvas: HTMLCanvasElement | null;
   elementType: ExcalidrawElement["type"];
   setAppState: React.Component<any, AppState>["setState"];
   isLibraryOpen: boolean;
+  zenModeEnabled: boolean | false;
 }) => (
   <>
     {SHAPES.map(({ value, icon, key }, index) => {
@@ -193,19 +195,21 @@ export const ShapesSwitcher = ({
         />
       );
     })}
-    <ToolButton
-      className="Shape ToolIcon_type_button__library"
-      type="button"
-      icon={LIBRARY_ICON}
-      name="editor-library"
-      keyBindingLabel="9"
-      aria-keyshortcuts="9"
-      title={`${capitalizeString(t("toolBar.library"))} — 9`}
-      aria-label={capitalizeString(t("toolBar.library"))}
-      onClick={() => {
-        setAppState({ isLibraryOpen: !isLibraryOpen });
-      }}
-    />
+    {!zenModeEnabled && (
+      <ToolButton
+        className="Shape ToolIcon_type_button__library"
+        type="button"
+        icon={LIBRARY_ICON}
+        name="editor-library"
+        keyBindingLabel="9"
+        aria-keyshortcuts="9"
+        title={`${capitalizeString(t("toolBar.library"))} — 9`}
+        aria-label={capitalizeString(t("toolBar.library"))}
+        onClick={() => {
+          setAppState({ isLibraryOpen: !isLibraryOpen });
+        }}
+      />
+    )}
   </>
 );
 
