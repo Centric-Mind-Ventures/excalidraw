@@ -94,6 +94,9 @@ const initializeScene = async (opts: {
   );
 
   await updateConfigurationDataFromBase64(window.location.hash, scene);
+  if (scene.appState.scrollToContentOnLoad) {
+    scene.scrollToContent = true;
+  }
 
   let roomLinkData = getCollaborationLinkData(window.location.hash);
   const isExternalScene = !!(id || jsonBackendMatch || roomLinkData);

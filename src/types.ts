@@ -93,6 +93,7 @@ export type AppState = {
   /** this mode extends view mode by disabling toolbar and all other elements. To disable real interaction with
    * the canvas one should set viewModeEnabled to true */
   readOnlyModeEnabled: boolean;
+  scrollToContentOnLoad: boolean;
   theme: "light" | "dark";
   gridSize: number | null;
   viewModeEnabled: boolean;

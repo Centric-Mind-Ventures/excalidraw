@@ -72,6 +72,7 @@ export const getDefaultAppState = (): Omit<
     zenModeEnabled: false,
     toolbarPosition: "top",
     readOnlyModeEnabled: false,
+    scrollToContentOnLoad: false,
     zoom: { value: 1 as NormalizedZoomValue, translation: { x: 0, y: 0 } },
     viewModeEnabled: false,
   };
@@ -155,6 +156,7 @@ const APP_STATE_STORAGE_CONF = (<
   zenModeEnabled: { browser: true, export: false },
   toolbarPosition: { browser: true, export: true },
   readOnlyModeEnabled: { browser: true, export: true },
+  scrollToContentOnLoad: { browser: false, export: false },
   zoom: { browser: true, export: false },
   viewModeEnabled: { browser: false, export: false },
 });
