@@ -538,7 +538,7 @@ const LayerUI = ({
               : renderCanvasActions()}
             {shouldRenderSelectedShapeActions && renderSelectedShapeActions()}
           </Stack.Col>
-          {!viewModeEnabled && (
+          {!viewModeEnabled && appState.toolbarPosition === "top" && (
             <Section heading="shapes">
               {(heading) => (
                 <Stack.Col gap={4} align="start">
@@ -595,11 +595,7 @@ const LayerUI = ({
 
   const renderBottomAppMenu = () => {
     return (
-      <div
-        className={clsx("App-menu App-menu_bottom zen-mode-transition", {
-          "App-menu_bottom--transition-left": zenModeEnabled,
-        })}
-      >
+      <div className={clsx("App-menu App-menu_bottom zen-mode-transition")}>
         <Stack.Col gap={2}>
           <Section heading="canvasActions">
             <Island padding={1}>
@@ -611,6 +607,20 @@ const LayerUI = ({
             {renderEncryptedIcon()}
           </Section>
         </Stack.Col>
+        {appState.toolbarPosition === "bottom" && (
+          <Stack.Col gap={4}>
+            <Section heading="canvasActions">
+              <Island padding={1}>
+                <ShapesSwitcher
+                  canvas={canvas}
+                  elementType={appState.elementType}
+                  setAppState={setAppState}
+                  isLibraryOpen={appState.isLibraryOpen}
+                />
+              </Island>
+            </Section>
+          </Stack.Col>
+        )}
       </div>
     );
   };

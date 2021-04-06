@@ -89,6 +89,7 @@ export type AppState = {
   showHelpDialog: boolean;
   toastMessage: string | null;
   zenModeEnabled: boolean;
+  toolbarPosition: "top" | "bottom";
   theme: "light" | "dark";
   gridSize: number | null;
   viewModeEnabled: boolean;
