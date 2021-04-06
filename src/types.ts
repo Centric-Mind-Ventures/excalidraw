@@ -90,6 +90,9 @@ export type AppState = {
   toastMessage: string | null;
   zenModeEnabled: boolean;
   toolbarPosition: "top" | "bottom";
+  /** this mode extends view mode by disabling toolbar and all other elements. To disable real interaction with
+   * the canvas one should set viewModeEnabled to true */
+  readOnlyModeEnabled: boolean;
   theme: "light" | "dark";
   gridSize: number | null;
   viewModeEnabled: boolean;

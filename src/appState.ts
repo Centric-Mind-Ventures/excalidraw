@@ -71,6 +71,7 @@ export const getDefaultAppState = (): Omit<
     viewBackgroundColor: oc.white,
     zenModeEnabled: false,
     toolbarPosition: "top",
+    readOnlyModeEnabled: false,
     zoom: { value: 1 as NormalizedZoomValue, translation: { x: 0, y: 0 } },
     viewModeEnabled: false,
   };
@@ -153,6 +154,7 @@ const APP_STATE_STORAGE_CONF = (<
   width: { browser: false, export: false },
   zenModeEnabled: { browser: true, export: false },
   toolbarPosition: { browser: true, export: true },
+  readOnlyModeEnabled: { browser: true, export: true },
   zoom: { browser: true, export: false },
   viewModeEnabled: { browser: false, export: false },
 });

@@ -716,11 +716,11 @@ const LayerUI = ({
       })}
     >
       {dialogs}
-      {renderFixedSideContainer()}
-      {renderBottomAppMenu()}
-      {renderGitHubCorner()}
-      {renderFooter()}
-      {appState.scrolledOutside && (
+      {!appState.readOnlyModeEnabled && renderFixedSideContainer()}
+      {!appState.readOnlyModeEnabled && renderBottomAppMenu()}
+      {!appState.readOnlyModeEnabled && renderGitHubCorner()}
+      {!appState.readOnlyModeEnabled && renderFooter()}
+      {appState.scrolledOutside && !appState.readOnlyModeEnabled && (
         <button
           className="scroll-back-to-content"
           onClick={() => {
