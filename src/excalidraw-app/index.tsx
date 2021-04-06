@@ -18,7 +18,7 @@ import {
   URL_HASH_KEYS,
   VERSION_TIMEOUT,
 } from "../constants";
-import { loadFromBlob } from "../data/blob";
+import { loadFromBlob } from "../data";
 import { DataState, ImportedDataState } from "../data/types";
 import {
   ExcalidrawElement,
@@ -44,7 +44,12 @@ import CollabWrapper, {
   CollabContextConsumer,
 } from "./collab/CollabWrapper";
 import { LanguageList } from "./components/LanguageList";
-import { exportToBackend, getCollaborationLinkData, loadScene } from "./data";
+import {
+  exportToBackend,
+  getCollaborationLinkData,
+  loadScene,
+  updateConfigurationDataFromBase64,
+} from "./data";
 import {
   importFromLocalStorage,
   saveToLocalStorage,
@@ -88,6 +93,8 @@ const initializeScene = async (opts: {
     null,
     initialData,
   );
+
+  await updateConfigurationDataFromBase64(window.location.href, scene);
 
   let roomLinkData = getCollaborationLinkData(window.location.href);
   const isExternalScene = !!(id || jsonBackendMatch || roomLinkData);

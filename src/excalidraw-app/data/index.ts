@@ -1,9 +1,10 @@
 import { serializeAsJSON } from "../../data/json";
 import { restore } from "../../data/restore";
-import { ImportedDataState } from "../../data/types";
+import { DataState, ImportedDataState } from "../../data/types";
 import { ExcalidrawElement } from "../../element/types";
 import { t } from "../../i18n";
 import { AppState, UserIdleState } from "../../types";
+import { base64ToString } from "../../data/encode";
 
 const byteToHex = (byte: number): string => `0${byte.toString(16)}`.slice(-2);
 
@@ -132,6 +133,24 @@ export const decryptAESGEM = async (
   return {
     type: "INVALID_RESPONSE",
   };
+};
+
+/**
+ * Configuration can be provided as base64 encoded dict with keys that can overwrite AppState
+ */
+export const updateConfigurationDataFromBase64 = async (
+  link: string,
+  state: DataState,
+) => {
+  const hash = new URL(link).hash;
+  const match = hash.match(/configuration=\|([a-zA-Z0-9=]+)\|/);
+  if (match !== null && match[1]) {
+    const decodedConfiguration = await base64ToString(match[1]);
+    if (decodedConfiguration) {
+      const parsedConfigurationHash = JSON.parse(decodedConfiguration);
+      Object.assign(state.appState, parsedConfigurationHash);
+    }
+  }
 };
 
 export const getCollaborationLinkData = (link: string) => {
