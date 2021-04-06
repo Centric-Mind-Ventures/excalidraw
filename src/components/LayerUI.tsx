@@ -649,14 +649,16 @@ const LayerUI = ({
         {renderCustomFooter?.(false)}
         {actionManager.renderAction("toggleShortcuts")}
       </div>
-      <button
-        className={clsx("disable-zen-mode", {
-          "disable-zen-mode--visible": showExitZenModeBtn,
-        })}
-        onClick={toggleZenMode}
-      >
-        {t("buttons.exitZenMode")}
-      </button>
+      {appState.toolbarPosition !== "bottom" && (
+        <button
+          className={clsx("disable-zen-mode", {
+            "disable-zen-mode--visible": showExitZenModeBtn,
+          })}
+          onClick={toggleZenMode}
+        >
+          {t("buttons.exitZenMode")}
+        </button>
+      )}
     </footer>
   );
 
@@ -720,7 +722,7 @@ const LayerUI = ({
       {!appState.readOnlyModeEnabled && renderBottomAppMenu()}
       {!appState.readOnlyModeEnabled && renderGitHubCorner()}
       {!appState.readOnlyModeEnabled && renderFooter()}
-      {appState.scrolledOutside && !appState.readOnlyModeEnabled && (
+      {appState.scrolledOutside && (
         <button
           className="scroll-back-to-content"
           onClick={() => {
