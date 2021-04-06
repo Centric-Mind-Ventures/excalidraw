@@ -93,14 +93,6 @@ const initializeScene = async (opts: {
     initialData,
   );
 
-  const overwrittenAppState = await updateConfigurationDataFromBase64(
-    window.location.hash,
-  );
-  Object.assign(scene.appState, overwrittenAppState);
-  if (overwrittenAppState.scrollToContentOnLoad) {
-    scene.scrollToContent = true;
-  }
-
   let roomLinkData = getCollaborationLinkData(window.location.hash);
   const isExternalScene = !!(id || jsonBackendMatch || roomLinkData);
   if (isExternalScene) {
@@ -168,7 +160,6 @@ const initializeScene = async (opts: {
   if (roomLinkData) {
     return opts.collabAPI.initializeSocketClient(roomLinkData);
   } else if (scene) {
-    Object.assign(scene.appState, overwrittenAppState);
     return scene;
   }
   return null;
@@ -209,7 +200,20 @@ const ExcalidrawWrapper = () => {
     }
 
     initializeScene({ collabAPI }).then((scene) => {
-      initialStatePromiseRef.current.promise.resolve(scene);
+      updateConfigurationDataFromBase64(window.location.hash).then(
+        (overwrittenAppState) => {
+          if (scene) {
+            if (!scene.appState) {
+              scene.appState = {};
+            }
+            Object.assign(scene.appState, overwrittenAppState);
+            if (overwrittenAppState.scrollToContentOnLoad) {
+              scene.scrollToContent = true;
+            }
+            initialStatePromiseRef.current.promise.resolve(scene);
+          }
+        },
+      );
     });
 
     const onHashChange = (event: HashChangeEvent) => {
