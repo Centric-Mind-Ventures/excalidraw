@@ -5,6 +5,7 @@ import { ExcalidrawElement } from "../../element/types";
 import { t } from "../../i18n";
 import { AppState, UserIdleState } from "../../types";
 import { base64ToString } from "../../data/encode";
+import { log } from "../../utils";
 
 const byteToHex = (byte: number): string => `0${byte.toString(16)}`.slice(-2);
 
@@ -157,7 +158,7 @@ export const updateConfigurationDataFromBase64 = async (
     if (decodedConfiguration) {
       const parsedConfigurationHash = JSON.parse(decodedConfiguration);
       Object.assign(state.appState, parsedConfigurationHash);
-      console.warn(`Got configuration ${parsedConfigurationHash}`);
+      log(`Got configuration ${parsedConfigurationHash}`);
     }
   }
 };

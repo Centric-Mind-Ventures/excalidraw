@@ -96,7 +96,6 @@ const initializeScene = async (opts: {
   await updateConfigurationDataFromBase64(window.location.hash, scene);
 
   let roomLinkData = getCollaborationLinkData(window.location.hash);
-  console.warn(`Got configuration room ${roomLinkData}`);
   const isExternalScene = !!(id || jsonBackendMatch || roomLinkData);
   if (isExternalScene) {
     if (

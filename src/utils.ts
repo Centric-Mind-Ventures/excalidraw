@@ -346,7 +346,9 @@ export const resolvablePromise = <T>() => {
     resolve = _resolve;
     reject = _reject;
   });
+  // noinspection JSUnusedAssignment
   (promise as any).resolve = resolve;
+  // noinspection JSUnusedAssignment
   (promise as any).reject = reject;
   return promise as ResolvablePromise<T>;
 };
@@ -405,4 +407,9 @@ export const supportsEmoji = () => {
   // Luckily 😀 isn't supported.
   ctx.fillText("😀", 0, 0);
   return ctx.getImageData(offset, offset, 1, 1).data[0] !== 0;
+};
+
+export const log = (message: string) => {
+  // eslint-disable-next-line no-console
+  console.log(message);
 };
