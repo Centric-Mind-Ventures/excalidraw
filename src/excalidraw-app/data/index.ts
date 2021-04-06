@@ -135,28 +135,40 @@ export const decryptAESGEM = async (
   };
 };
 
+export const getParameterValueFrom = (input: string, name: string) => {
+  const regex = new RegExp(`${name}=([^&#=]*=?=?)`, "g");
+  const match = input.match(regex);
+  if (match) {
+    return match[0].split(/=(.+)/)[1];
+  }
+  return null;
+};
+
 /**
  * Configuration can be provided as base64 encoded dict with keys that can overwrite AppState
  */
 export const updateConfigurationDataFromBase64 = async (
-  link: string,
+  hash: string,
   state: DataState,
 ) => {
-  const hash = new URL(link).hash;
-  const match = hash.match(/configuration=\|([a-zA-Z0-9=]+)\|/);
-  if (match !== null && match[1]) {
-    const decodedConfiguration = await base64ToString(match[1]);
+  const value = getParameterValueFrom(hash, "configuration");
+  if (value) {
+    const decodedConfiguration = await base64ToString(value);
     if (decodedConfiguration) {
       const parsedConfigurationHash = JSON.parse(decodedConfiguration);
       Object.assign(state.appState, parsedConfigurationHash);
+      console.warn(`Got configuration ${parsedConfigurationHash}`);
     }
   }
 };
 
-export const getCollaborationLinkData = (link: string) => {
-  const hash = new URL(link).hash;
-  const match = hash.match(/^#room=([a-zA-Z0-9_-]+),([a-zA-Z0-9_-]+)$/);
-  return match ? { roomId: match[1], roomKey: match[2] } : null;
+export const getCollaborationLinkData = (hash: string) => {
+  const roomValue = getParameterValueFrom(hash, "room");
+  if (roomValue) {
+    const match = roomValue.match(/^([a-zA-Z0-9_-]+),([a-zA-Z0-9_-]+)$/);
+    return match ? { roomId: match[1], roomKey: match[2] } : null;
+  }
+  return null;
 };
 
 export const generateCollaborationLinkData = async () => {

@@ -47,6 +47,7 @@ import { LanguageList } from "./components/LanguageList";
 import {
   exportToBackend,
   getCollaborationLinkData,
+  getParameterValueFrom,
   loadScene,
   updateConfigurationDataFromBase64,
 } from "./data";
@@ -81,10 +82,8 @@ const initializeScene = async (opts: {
 }): Promise<ImportedDataState | null> => {
   const searchParams = new URLSearchParams(window.location.search);
   const id = searchParams.get("id");
-  const jsonBackendMatch = window.location.hash.match(
-    /^#json=([0-9]+),([a-zA-Z0-9_-]+)$/,
-  );
-  const externalUrlMatch = window.location.hash.match(/^#url=(.*)$/);
+  const jsonBackendMatch = getParameterValueFrom(window.location.hash, "json");
+  const externalUrlMatch = getParameterValueFrom(window.location.hash, "url");
 
   const initialData = importFromLocalStorage();
 
@@ -94,9 +93,10 @@ const initializeScene = async (opts: {
     initialData,
   );
 
-  await updateConfigurationDataFromBase64(window.location.href, scene);
+  await updateConfigurationDataFromBase64(window.location.hash, scene);
 
-  let roomLinkData = getCollaborationLinkData(window.location.href);
+  let roomLinkData = getCollaborationLinkData(window.location.hash);
+  console.warn(`Got configuration room ${roomLinkData}`);
   const isExternalScene = !!(id || jsonBackendMatch || roomLinkData);
   if (isExternalScene) {
     if (
