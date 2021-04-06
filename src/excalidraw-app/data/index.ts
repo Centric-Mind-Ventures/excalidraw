@@ -1,6 +1,6 @@
 import { serializeAsJSON } from "../../data/json";
 import { restore } from "../../data/restore";
-import { DataState, ImportedDataState } from "../../data/types";
+import { ImportedDataState } from "../../data/types";
 import { ExcalidrawElement } from "../../element/types";
 import { t } from "../../i18n";
 import { AppState, UserIdleState } from "../../types";
@@ -150,17 +150,17 @@ export const getParameterValueFrom = (input: string, name: string) => {
  */
 export const updateConfigurationDataFromBase64 = async (
   hash: string,
-  state: DataState,
-) => {
+): Promise<Partial<AppState>> => {
   const value = getParameterValueFrom(hash, "configuration");
   if (value) {
     const decodedConfiguration = await base64ToString(value);
     if (decodedConfiguration) {
       const parsedConfigurationHash = JSON.parse(decodedConfiguration);
-      Object.assign(state.appState, parsedConfigurationHash);
-      log(`Got configuration ${parsedConfigurationHash}`);
+      log(`Got configuration ${JSON.stringify(parsedConfigurationHash)}`);
+      return parsedConfigurationHash;
     }
   }
+  return {};
 };
 
 export const getCollaborationLinkData = (hash: string) => {

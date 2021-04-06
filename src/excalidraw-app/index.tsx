@@ -93,8 +93,11 @@ const initializeScene = async (opts: {
     initialData,
   );
 
-  await updateConfigurationDataFromBase64(window.location.hash, scene);
-  if (scene.appState.scrollToContentOnLoad) {
+  const overwrittenAppState = await updateConfigurationDataFromBase64(
+    window.location.hash,
+  );
+  Object.assign(scene.appState, overwrittenAppState);
+  if (overwrittenAppState.scrollToContentOnLoad) {
     scene.scrollToContent = true;
   }
 
@@ -165,6 +168,7 @@ const initializeScene = async (opts: {
   if (roomLinkData) {
     return opts.collabAPI.initializeSocketClient(roomLinkData);
   } else if (scene) {
+    Object.assign(scene.appState, overwrittenAppState);
     return scene;
   }
   return null;
