@@ -31,6 +31,7 @@ type MobileMenuProps = {
   renderCustomFooter?: (isMobile: boolean) => JSX.Element;
   viewModeEnabled: boolean;
   zenModeEnabled: boolean;
+  readOnlyModeEnabled: boolean;
   showThemeBtn: boolean;
 };
 
@@ -48,52 +49,55 @@ export const MobileMenu = ({
   renderCustomFooter,
   viewModeEnabled,
   zenModeEnabled,
+  readOnlyModeEnabled,
   showThemeBtn,
 }: MobileMenuProps) => {
   const renderToolbar = () => {
     return (
-      <FixedSideContainer side="top" className="App-top-bar">
-        <Section heading="shapes">
-          {(heading) => (
-            <Stack.Col gap={4} align="center">
-              <Stack.Row gap={1}>
-                <Island padding={1}>
-                  {heading}
-                  <Stack.Row gap={1}>
-                    <ShapesSwitcher
-                      canvas={canvas}
-                      elementType={appState.elementType}
-                      setAppState={setAppState}
-                      isLibraryOpen={appState.isLibraryOpen}
-                      zenModeEnabled={appState.zenModeEnabled}
-                    />
-                    {actionManager.renderAction("undo")}
-                  </Stack.Row>
-                </Island>
-                <LockIcon
-                  checked={appState.elementLocked}
-                  onChange={onLockToggle}
-                  title={t("toolBar.lock")}
-                />
-              </Stack.Row>
-              {libraryMenu}
-            </Stack.Col>
-          )}
-        </Section>
-        <HintViewer appState={appState} elements={elements} />
-      </FixedSideContainer>
+      !readOnlyModeEnabled && (
+        <FixedSideContainer side="top" className="App-top-bar">
+          <Section heading="shapes">
+            {(heading) => (
+              <Stack.Col gap={4} align="center">
+                <Stack.Row gap={1}>
+                  <Island padding={1}>
+                    {heading}
+                    <Stack.Row gap={1}>
+                      <ShapesSwitcher
+                        canvas={canvas}
+                        elementType={appState.elementType}
+                        setAppState={setAppState}
+                        isLibraryOpen={appState.isLibraryOpen}
+                        zenModeEnabled={appState.zenModeEnabled}
+                      />
+                      {actionManager.renderAction("undo")}
+                    </Stack.Row>
+                  </Island>
+                  <LockIcon
+                    checked={appState.elementLocked}
+                    onChange={onLockToggle}
+                    title={t("toolBar.lock")}
+                  />
+                </Stack.Row>
+                {libraryMenu}
+              </Stack.Col>
+            )}
+          </Section>
+          <HintViewer appState={appState} elements={elements} />
+        </FixedSideContainer>
+      )
     );
   };
 
   const renderAppToolbar = () => {
-    if (viewModeEnabled) {
+    if (viewModeEnabled && !readOnlyModeEnabled) {
       return (
         <div className="App-toolbar-content">
           {actionManager.renderAction("toggleCanvasMenu")}
         </div>
       );
     }
-    if (!zenModeEnabled) {
+    if (!zenModeEnabled && !readOnlyModeEnabled) {
       return (
         <div className="App-toolbar-content">
           {actionManager.renderAction("toggleCanvasMenu")}

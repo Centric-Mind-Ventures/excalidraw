@@ -708,6 +708,7 @@ const LayerUI = ({
         renderCustomFooter={renderCustomFooter}
         viewModeEnabled={viewModeEnabled}
         zenModeEnabled={zenModeEnabled}
+        readOnlyModeEnabled={appState.readOnlyModeEnabled}
         showThemeBtn={showThemeBtn}
       />
     </>
