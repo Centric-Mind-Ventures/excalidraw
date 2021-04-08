@@ -72,6 +72,7 @@ class Portal {
   async _broadcastSocketData(
     data: SocketUpdateData,
     volatile: boolean = false,
+    containsAllElements: boolean,
   ) {
     if (this.isOpen()) {
       const json = JSON.stringify(data);
@@ -82,6 +83,7 @@ class Portal {
         this.roomId,
         encrypted.data,
         encrypted.iv,
+        containsAllElements,
       );
     }
   }
@@ -123,6 +125,8 @@ class Portal {
 
     const broadcastPromise = this._broadcastSocketData(
       data as SocketUpdateData,
+      false,
+      syncAll,
     );
 
     if (syncAll && this.collab.isCollaborating) {
@@ -145,10 +149,7 @@ class Portal {
           username: this.collab.state.username,
         },
       };
-      return this._broadcastSocketData(
-        data as SocketUpdateData,
-        true, // volatile
-      );
+      return this._broadcastSocketData(data as SocketUpdateData, true, false);
     }
   };
 
@@ -168,10 +169,7 @@ class Portal {
           username: this.collab.state.username,
         },
       };
-      return this._broadcastSocketData(
-        data as SocketUpdateData,
-        true, // volatile
-      );
+      return this._broadcastSocketData(data as SocketUpdateData, true, false);
     }
   };
 }
