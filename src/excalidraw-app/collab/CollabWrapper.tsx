@@ -146,6 +146,7 @@ class CollabWrapper extends PureComponent<Props, CollabState> {
   };
 
   private beforeUnload = withBatchedUpdates((event: BeforeUnloadEvent) => {
+    event.preventDefault();
     const syncableElements = getSyncableElements(
       this.getSceneElementsIncludingDeleted(),
     );
@@ -158,7 +159,6 @@ class CollabWrapper extends PureComponent<Props, CollabState> {
       //  the purpose is to run in immediately after user decides to stay
       this.saveCollabRoomToFirebase(syncableElements);
 
-      event.preventDefault();
       // NOTE: modern browsers no longer allow showing a custom message here
       event.returnValue = "";
     }
