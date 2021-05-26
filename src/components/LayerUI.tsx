@@ -531,7 +531,10 @@ const LayerUI = ({
         <div className="App-menu App-menu_top">
           <Stack.Col
             gap={4}
-            className={clsx({ "disable-pointerEvents": zenModeEnabled })}
+            className={clsx({
+              "disable-pointerEvents":
+                zenModeEnabled || appState.readOnlyModeEnabled,
+            })}
           >
             {viewModeEnabled
               ? renderViewModeCanvasActions()
@@ -718,6 +721,7 @@ const LayerUI = ({
         "disable-pointerEvents":
           appState.draggingElement ||
           appState.resizingElement ||
+          appState.readOnlyModeEnabled ||
           (appState.editingElement && !isTextElement(appState.editingElement)),
       })}
     >
